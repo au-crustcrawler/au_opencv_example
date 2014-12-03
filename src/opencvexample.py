@@ -56,28 +56,31 @@ def extract_single_color_range(image,hsv,lower,upper):
     res = cv2.bitwise_and(image,image, mask= mask)
     return res
 
-def threshold_image(image):
+def threshold_image(image,debug=False):
     """
     Thresholds the image within the desired range and then dilates with a 3x3 matrix
     such that small holes are filled. Afterwards the 'blobs' are closed using a
     combination of dilate and erode
     """
     ret,th1 = cv2.threshold(image,50,255,cv2.THRESH_BINARY)
-
+    if debug: cv2.imshow('th1',th1)
     resdi = cv2.dilate(th1,np.ones((3,3),np.uint8))
+    if debug: cv2.imshow('dilated',resdi)
     closing = cv2.morphologyEx(resdi, cv2.MORPH_CLOSE,np.ones((5,5),np.uint8))
+    if debug: cv2.imshow('closing',closing)
 
     return closing
 
-def contours(image):
+def contours(image,debug=False):
     """
     Extract the contours of the image by first converting it to grayscale and then
     call findContours
     """
     imgray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    if debug: cv2.imshow('gray_scale_contour',imgray)
     contours, hierarchy = cv2.findContours(imgray,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
-    return contours
+    return contours,hierarchy
 
 
 def do_full(image,hsv,upper,lower,debug=False):
@@ -90,12 +93,17 @@ def do_full(image,hsv,upper,lower,debug=False):
     single_color_img = extract_single_color_range(image,hsv,lower,upper)
     if debug:
         cv2.imshow('single_color_img',single_color_img)
-        cv2.imwrite('single_color_img.jpg',image)
-    single_channel = threshold_image(single_color_img)
+        cv2.imwrite('single_color_img.jpg',single_color_img)
+    single_channel = threshold_image(single_color_img,debug)
     if debug:
         cv2.imshow('single_channel',single_channel)
-        cv2.imwrite('single_channel.jpg',image)
-    cont = contours(single_channel)
+        cv2.imwrite('single_channel.jpg',single_channel)
+    cont,hierarchy = contours(single_channel,debug)
+
+    if debug:
+        for i,cnt in enumerate(cont):
+            cv2.drawContours(single_channel,cont,i,(0,0,255),2)
+    if debug: cv2.imshow('contours',single_channel)
 
     return get_bricks(cont)
 
