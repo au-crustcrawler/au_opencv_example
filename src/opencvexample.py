@@ -93,11 +93,9 @@ def do_full(image,hsv,upper,lower,debug=False):
     single_color_img = extract_single_color_range(image,hsv,lower,upper)
     if debug:
         cv2.imshow('single_color_img',single_color_img)
-        cv2.imwrite('single_color_img.jpg',single_color_img)
     single_channel = threshold_image(single_color_img,debug)
     if debug:
         cv2.imshow('single_channel',single_channel)
-        cv2.imwrite('single_channel.jpg',single_channel)
     cont,hierarchy = contours(single_channel,debug)
 
     if debug:
