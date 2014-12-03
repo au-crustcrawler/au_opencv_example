@@ -32,4 +32,9 @@ Configure the webcam such that access control is disabled for single image fetch
 and increase the resolution to 640x480
 
 configure your virtual machine such that it can access the ethernet and set a static ip address in ubuntu.
+When configuring the bridge network please select only the ethernet adapter by clicking the configure adapters button 
+in the VM manager.
+
+In ubuntu configure a static ip for eth0 using the gui. the address can be 192.168.0.21 with the netmask set to 255.255.255.0 and empty gateway. click save, and then reselect the connection in the network manager icon. 
+
 
