@@ -8,6 +8,7 @@ def get_from_webcam():
     """
     Fetches an image from the webcam
     """
+    print "try fetch from webcam..."
     stream=urllib.urlopen('http://192.168.0.20/image/jpeg.cgi')
     bytes=''
     bytes+=stream.read(64500)
@@ -26,6 +27,7 @@ def get_from_file(filename):
     """
     Loads image from file
     """
+    print "loading from file..."
     return cv2.imread(filename)
 
 def get_bricks(contours):
@@ -112,8 +114,8 @@ def show_bricks(image,bricks,color):
     for b in bricks:
         cv2.drawContours(image,[b],0,color,2)
 
-print "loading from file"
-image = get_from_file('/home/ros/test.jpg')
+image = get_from_file('test.jpg')
+#image = get_from_webcam()
 cv2.imshow('raw',image)
 
 hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)

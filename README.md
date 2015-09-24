@@ -14,15 +14,6 @@ http://docs.opencv.org/doc/tutorials/imgproc/table_of_content_imgproc/table_of_c
 
 
 
-Example
-========
-
-
-![Test Image](doc/test.jpg)
-
-![Resulting Image](doc/result.jpg)
-
-
 Configuring the webcam
 ==============
 The default IP address of the webcam is 192.168.0.20
